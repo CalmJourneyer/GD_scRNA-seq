@@ -1,0 +1,10 @@
+library(Seurat)
+library(tidyverse)
+library(harmony)
+
+scdata <-NormalizeData(scdata) %>% FindVariableFeatures(selection.method="vst")%>%ScaleData()%>% RunPCA(npcs = 50, verbose = FALSE)
+ElbowPlot(scdata,ndim=50,reduction="pca")
+scdata<-RunHarmony(scdata,group.by.vars="orig.ident",plot_convergence=TRUE)
+scdata<-FindNeighbors(scdata,reduction="harmony",dims=1:30)
+scdata<-FindClusters(scdata,resolution =0.2)
+scdata<-RunUMAP(object = scdata,reduction="harmony", dims = 1:30)
