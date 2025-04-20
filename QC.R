@@ -28,4 +28,11 @@ for(i in 1:length(scRNAlist)){
            scRNAlist[[i]]<-sc
 }
 
-scRNAlist_merge=merge(x=scRNAlist[[1]],y=scRNAlist[-1])
+scdata=merge(x=scRNAlist[[1]],y=scRNAlist[-1])
+
+counts <- GetAssayData(scdata, assay = "RNA")
+counts <- counts[-(which(rownames(counts) %in% c("HBA1","HBA2","HBB","HBD","HBE1","HBG1","HBG2","HBM","HBQ1","HBZ"))),]
+filter<-grep("^MT-|^RP[SL]", rownames(counts))
+counts1<-rownames(counts)[-filter]
+counts2 <- counts[which(rownames(counts) %in% counts1),]
+scdata <- subset(scdata, features = rownames(counts2))
