@@ -1,6 +1,5 @@
 library(Seurat)
 library(tidyverse)
-library(DoubletFinder)
 
 PatientList <- grep("/filtered_feature_bc_matrix$",list.dirs(),value=T)
 scRNAlist<-list()
